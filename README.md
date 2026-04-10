@@ -1,1 +1,50 @@
-Concepto: Aplicación personal para gestionar, puntuar y organizar anime con personalización estética basada en roles de usuario.🚀 1. Funcionalidades PrincipalesBuscador Inteligente: Conexión con la API de Jikan (MyAnimeList) para buscar series, películas y OVAs.Gestión de Biblioteca: Creación de carpetas personalizadas (ej: Vistos, Favoritos, Shojo, Joyas ocultas).Sistema de Reseñas: Puntuación personal (1-10) y espacio para comentarios/descripciones.Recomendaciones Dinámicas: Sugerencias automáticas de animes basadas exclusivamente en el Rol elegido por el usuario.Social-Fake (Métricas): Visualización de la puntuación media global (de la API) y un "Top 5 de la semana" basado en tendencias o votos de usuarios.🎭 2. Sistema de Roles y Tematización (CSS Dinámico)El punto fuerte de la app. El CSS cambia completamente según el estilo elegido en el perfil:RolNombre EstiloVibe VisualColores Sugeridos🌸 GirlieSakura AestheticDulce / ClásicoRosa pastel, blanco crema.🔥 BoyShonen SpiritAcción / EnergíaAzul eléctrico, naranja, negro.🌙 NeutroMidnight SeinenMaduro / UrbanoVerde oscuro, gris, carbón.Implementación: Uso de variables CSS (--primary-color) en un contenedor raíz vinculado al rol del usuario.👤 3. Gestión de Usuario y RegistroRegistro Gratuito: Sin base de datos externa inicialmente (usando LocalStorage del navegador).Perfil Editable: El usuario puede cambiar su nombre, contraseña y, sobre todo, su Rol en cualquier momento, viendo cómo la app cambia de color al instante.Seguridad: Implementación de Guards de Angular para proteger las rutas privadas (solo usuarios registrados pueden ver su biblioteca).🛠️ 4. Stack Tecnológico y DatosFramework: Angular (v17+).Lenguaje: TypeScript (todo fuertemente tipado con Interfaces).API Principal: Jikan API (Gratis, sin necesidad de tarjeta ni API Key).Persistencia: LocalStorage (JSON strings).Estado: BehaviorSubject en un UserService para que toda la app sepa qué usuario está logueado y qué rol tiene.
+# 🌀 Nikkura (日記蔵)
+
+**Nikkura** és una aplicació interactiva per a amants de l'anime on l'experiència s'adapta completament a tu. El nom neix de la fusió de les paraules japoneses *Nikki* (日記 - diari) i *Kura* (蔵 - magatzem), simbolitzant un espai personal per guardar i organitzar les teves històries preferides.
+
+---
+
+## ✨ El concepte
+
+A diferència d'altres cercadors, a **Nikkura** la teva identitat defineix la interfície. En registrar-te, tries un **rol** que transformarà el disseny visual (colors, components, animacions) i personalitzarà els algorismes de recomanació segons el teu perfil.
+
+---
+
+## 🚀 Característiques principals
+
+* **Personalització per Rol:** La UI/UX canvia dinàmicament segons el rol triat (ex: Shonen, Shojo, Seinen).
+* **Cercador Avançat:** Accés a una base de dades massiva d'animes gràcies a la integració d'APIs externes.
+* **El teu Magatzem (Kura):** Crea carpetes personalitzades per organitzar el que estàs veient, el que vols veure o els teus preferits.
+* **Comunitat & Feedback:** Puntua sèries i deixa comentaris per portar un seguiment detallat del teu "diari" d'anime.
+
+---
+
+## 🛠️ Stack Tecnològic
+
+L'app està construïda amb tecnologies modernes per garantir escalabilitat i rendiment:
+
+* **Frontend:** [Angular](https://angular.io/) + TypeScript.
+* **Backend:** [Node.js](https://nodejs.org/) amb Express per a la gestió d'usuaris.
+* **Base de Dades:** ---
+* **Gestió d'Estat:** ---
+* **API d'Anime:** ---
+
+---
+
+## 🎨 Temàtiques de Rol 
+
+| Rol | Estil Visual | Tipus de Contingut |
+| :--- | :--- | :--- |
+| **Hero spirit** | Colors vibrants i contrastats | Acció, Aventura, Shonen |
+| **Moe Magical** | Estètica pastel i suau | Romance, Slice of Life, Shojo |
+| ** ** | Minimalisme i tons foscos | Psicològic, Thriller, Seinen |
+
+---
+
+## 📦 Instal·lació
+
+Si vols provar el projecte en local:
+
+1. **Clona el repositori:**
+   ```bash
+   git clone [https://github.com/el-teu-usuari/nikkura.git](https://github.com/el-teu-usuari/nikkura.git)
