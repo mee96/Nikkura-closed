@@ -1,0 +1,79 @@
+<div class="home">
+  <header class="home__header">
+    <div class="home__greeting">
+      <h1 class="home__title">{{ roleLabel().title }}</h1>
+      <p class="home__subtitle">{{ roleLabel().subtitle }}</p>
+    </div>
+    <span class="home__username">{{ user()?.displayName }}</span>
+  </header>
+
+  <main class="home__main">
+    <section class="home__section" aria-labelledby="recommended-heading">
+      <h2 id="recommended-heading" class="home__section-title">Recomendados para ti</h2>
+
+      @if (recommended().length === 0 && isLoadingRecommended()) {
+        <ul class="anime-grid" aria-busy="true" aria-label="Cargando recomendaciones">
+          @for (i of [1,2,3,4,5,6,7,8]; track i) {
+            <li class="skeleton-card" aria-hidden="true"></li>
+          }
+        </ul>
+      } @else {
+        <ul class="anime-grid" aria-label="Recomendados para ti">
+          @for (anime of recommended(); track anime.mal_id) {
+            <li>
+              <app-anime-card [anime]="anime" />
+            </li>
+          }
+        </ul>
+
+        @if (hasMoreRecommended()) {
+          <div
+            appInfiniteScroll
+            (scrolled)="onScrollRecommended()"
+            class="scroll-sentinel"
+            aria-hidden="true"
+          >
+            @if (isLoadingRecommended()) {
+              <span class="scroll-sentinel__spinner"></span>
+            }
+          </div>
+        }
+      }
+    </section>
+
+    <section class="home__section" aria-labelledby="top-heading">
+      <h2 id="top-heading" class="home__section-title">Top en emisión</h2>
+
+      @if (topAiring().length === 0 && isLoadingTop()) {
+        <ul class="anime-grid" aria-busy="true" aria-label="Cargando top anime">
+          @for (i of [1,2,3,4,5,6,7,8]; track i) {
+            <li class="skeleton-card" aria-hidden="true"></li>
+          }
+        </ul>
+      } @else {
+        <ul class="anime-grid" aria-label="Top anime en emisión">
+          @for (anime of topAiring(); track anime.mal_id) {
+            <li>
+              <app-anime-card [anime]="anime" />
+            </li>
+          }
+        </ul>
+
+        @if (hasMoreTop()) {
+          <div
+            appInfiniteScroll
+            (scrolled)="onScrollTop()"
+            class="scroll-sentinel"
+            aria-hidden="true"
+          >
+            @if (isLoadingTop()) {
+              <span class="scroll-sentinel__spinner"></span>
+            }
+          </div>
+        }
+      }
+    </section>
+  </main>
+
+  <app-navbar />
+</div>

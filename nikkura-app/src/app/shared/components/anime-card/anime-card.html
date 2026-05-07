@@ -1,0 +1,27 @@
+<a class="anime-card" [routerLink]="['/anime', anime().mal_id]" [attr.aria-label]="anime().title_english || anime().title">
+  <div class="anime-card__img-wrap">
+    <img
+      [src]="imageUrl"
+      [alt]="anime().title"
+      class="anime-card__img"
+      loading="lazy"
+      width="225"
+      height="318"
+    />
+    @if (anime().score) {
+      <span class="anime-card__score" aria-label="Puntuación {{ anime().score }}">
+        ★ {{ anime().score }}
+      </span>
+    }
+  </div>
+  <div class="anime-card__body">
+    <h3 class="anime-card__title">{{ anime().title_english || anime().title }}</h3>
+    @if (anime().genres.length) {
+      <ul class="anime-card__genres" aria-label="Géneros">
+        @for (genre of anime().genres.slice(0, 2); track genre.mal_id) {
+          <li class="anime-card__genre">{{ genre.name }}</li>
+        }
+      </ul>
+    }
+  </div>
+</a>

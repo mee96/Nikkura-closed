@@ -1,0 +1,486 @@
+// ─── Register page ────────────────────────────────────────────────────────────
+
+.register-page {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 16px 40px;
+  background-color: var(--color-background);
+  transition: background-color 250ms ease;
+}
+
+// ─── Header ───────────────────────────────────────────────────────────────────
+
+.register-header {
+  text-align: center;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.register-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  font-family: var(--font-heading);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+
+.register-header h1 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.3rem, 5vw, 2rem);
+  color: var(--color-text);
+  line-height: 1.2;
+}
+
+.register-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.selected-role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 14px;
+  border-radius: 999px;
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+}
+
+// ─── Hero section ─────────────────────────────────────────────────────────────
+
+.register-hero {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// ─── Role grid ────────────────────────────────────────────────────────────────
+
+.role-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: 100%;
+  max-width: 900px;
+  margin-bottom: 32px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+// ─── Role card base ───────────────────────────────────────────────────────────
+
+.role-card {
+  position: relative;
+  border: 2.5px solid transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  text-align: left;
+  background: none;
+  padding: 0;
+  transition:
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 250ms ease;
+
+  &:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  &:hover,
+  &--hovered {
+    transform: translateY(-4px);
+  }
+
+  &--selected {
+    transform: translateY(-4px);
+  }
+
+  &__inner {
+    padding: 24px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-height: 260px;
+
+    @media (min-width: 640px) {
+      min-height: 300px;
+    }
+  }
+
+  &__emoji {
+    font-size: 2.5rem;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  &__name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  &__tagline {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+  }
+
+  &__desc {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    opacity: 0.85;
+    flex: 1;
+  }
+
+  &__genres {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  &__check {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    transition:
+      opacity 200ms ease,
+      transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  &--selected &__check {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ─── Genre tags ───────────────────────────────────────────────────────────────
+
+.genre-tag {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+// ─── 🌸 Moe Magical card ──────────────────────────────────────────────────────
+
+.role-card--moe {
+  background: linear-gradient(145deg, #fff0f6 0%, #fce4ec 100%);
+  border-color: rgba(244, 143, 177, 0.3);
+  color: #3d0026;
+
+  .role-card__name {
+    color: #c2185b;
+    font-family: 'Quicksand', sans-serif;
+  }
+
+  .role-card__tagline {
+    color: #e91e8c;
+  }
+
+  .genre-tag {
+    background: rgba(244, 143, 177, 0.2);
+    color: #c2185b;
+  }
+
+  .role-card__check {
+    background: #f48fb1;
+    color: #fff;
+  }
+
+  &:hover,
+  &.role-card--hovered {
+    border-color: #f48fb1;
+    box-shadow: 0 8px 32px rgba(244, 143, 177, 0.4);
+  }
+
+  &.role-card--selected {
+    border-color: #e91e8c;
+    box-shadow: 0 8px 32px rgba(233, 30, 140, 0.3);
+  }
+}
+
+// ─── ⚡ Hakusama card ─────────────────────────────────────────────────────────
+
+.role-card--haku {
+  background: linear-gradient(145deg, #e8f4fd 0%, #e3f2fd 100%);
+  border-color: rgba(21, 101, 192, 0.2);
+  color: #0a1929;
+
+  .role-card__name {
+    color: #1565c0;
+    font-family: 'Rajdhani', sans-serif;
+    letter-spacing: 0.5px;
+  }
+
+  .role-card__tagline {
+    color: #00acc1;
+  }
+
+  .genre-tag {
+    background: rgba(21, 101, 192, 0.12);
+    color: #1565c0;
+  }
+
+  .role-card__check {
+    background: #1565c0;
+    color: #fff;
+  }
+
+  &:hover,
+  &.role-card--hovered {
+    border-color: #1565c0;
+    box-shadow: 0 8px 32px rgba(21, 101, 192, 0.3);
+  }
+
+  &.role-card--selected {
+    border-color: #00acc1;
+    box-shadow: 0 8px 32px rgba(0, 172, 193, 0.35);
+  }
+}
+
+// ─── 🍃 Senpai card ───────────────────────────────────────────────────────────
+
+.role-card--sen {
+  background: linear-gradient(145deg, #e8f5e9 0%, #f1f8e9 100%);
+  border-color: rgba(46, 125, 50, 0.2);
+  color: #1b2e1b;
+
+  .role-card__name {
+    color: #2e7d32;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .role-card__tagline {
+    color: #558b2f;
+  }
+
+  .genre-tag {
+    background: rgba(46, 125, 50, 0.12);
+    color: #2e7d32;
+  }
+
+  .role-card__check {
+    background: #2e7d32;
+    color: #fff;
+  }
+
+  &:hover,
+  &.role-card--hovered {
+    border-color: #2e7d32;
+    box-shadow: 0 8px 32px rgba(46, 125, 50, 0.25);
+  }
+
+  &.role-card--selected {
+    border-color: #558b2f;
+    box-shadow: 0 8px 32px rgba(85, 139, 47, 0.3);
+  }
+}
+
+// ─── Theme preview strip ──────────────────────────────────────────────────────
+
+.theme-preview {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--border-radius-default);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  transition:
+    background-color 250ms ease,
+    border-color 250ms ease;
+
+  &__bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+  }
+
+  &__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background-color 250ms ease;
+
+    &--primary   { background: var(--color-primary); }
+    &--secondary { background: var(--color-secondary); }
+    &--accent    { background: var(--color-accent); }
+  }
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text);
+    opacity: 0.7;
+    margin-left: 4px;
+    transition: color 250ms ease;
+    font-family: var(--font-heading);
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 64px;
+    flex-shrink: 0;
+  }
+
+  &__card-header {
+    height: 10px;
+    border-radius: 4px;
+    background: var(--color-primary);
+    opacity: 0.7;
+    transition: background-color 250ms ease;
+  }
+
+  &__card-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__line {
+    height: 5px;
+    border-radius: 3px;
+    background: var(--color-border);
+    transition: background-color 250ms ease;
+    width: 60%;
+
+    &--wide { width: 90%; }
+  }
+
+  &__badge {
+    height: 8px;
+    width: 40%;
+    border-radius: 8px;
+    background: var(--color-accent);
+    opacity: 0.6;
+    transition: background-color 250ms ease;
+  }
+}
+
+// ─── Actions ──────────────────────────────────────────────────────────────────
+
+.register-actions {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.register-login-link {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+
+  a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+// ─── Form section (step 2) ────────────────────────────────────────────────────
+
+.register-form-section {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.register-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: var(--color-surface);
+  padding: 32px 24px;
+  border-radius: var(--border-radius-default);
+  border: 1.5px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: background-color 250ms ease, box-shadow 250ms ease;
+}
+
+.register-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+
+  .btn--ghost {
+    flex-shrink: 0;
+  }
+
+  .btn--primary {
+    flex: 1;
+  }
+}
+
+.register-error {
+  padding: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  background: #fdecea;
+  color: #c62828;
+  font-size: 0.875rem;
+  border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
+// ─── Button spinner ───────────────────────────────────────────────────────────
+
+.btn-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

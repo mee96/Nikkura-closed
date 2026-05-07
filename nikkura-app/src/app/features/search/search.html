@@ -1,0 +1,115 @@
+<div class="search-page">
+  <header class="search-page__header">
+    <h1 class="search-page__title">Buscar anime</h1>
+  </header>
+
+  <form [formGroup]="filters" class="search-page__filters" (ngSubmit)="doSearch(1)" novalidate>
+    <div class="search-page__input-wrap">
+      <label for="search-query" class="sr-only">Buscar por nombre</label>
+      <input
+        id="search-query"
+        type="search"
+        class="search-page__input"
+        placeholder="Nombre del anime..."
+        formControlName="query"
+        autocomplete="off"
+      />
+    </div>
+
+    <details class="search-page__advanced">
+      <summary class="search-page__advanced-toggle">Filtros avanzados</summary>
+      <div class="search-page__advanced-grid">
+        <div class="form-group">
+          <label for="genre-filter">Género</label>
+          <select id="genre-filter" formControlName="genreId">
+            <option [ngValue]="null">Todos</option>
+            @for (genre of genres; track genre.id) {
+              <option [ngValue]="genre.id">{{ genre.name }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="type-filter">Tipo</label>
+          <select id="type-filter" formControlName="type">
+            <option value="">Todos</option>
+            <option value="tv">Serie TV</option>
+            <option value="movie">Película</option>
+            <option value="ova">OVA</option>
+            <option value="ona">ONA</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="status-filter">Estado</label>
+          <select id="status-filter" formControlName="status">
+            <option value="">Todos</option>
+            <option value="airing">En emisión</option>
+            <option value="complete">Completado</option>
+            <option value="upcoming">Próximamente</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="score-filter">Puntuación mínima</label>
+          <select id="score-filter" formControlName="minScore">
+            <option [ngValue]="null">Sin mínimo</option>
+            <option [ngValue]="6">6+</option>
+            <option [ngValue]="7">7+</option>
+            <option [ngValue]="8">8+</option>
+            <option [ngValue]="9">9+</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="year-filter">Año</label>
+          <select id="year-filter" formControlName="year">
+            <option [ngValue]="null">Todos</option>
+            @for (year of years; track year) {
+              <option [ngValue]="year">{{ year }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </details>
+  </form>
+
+  <main class="search-page__results">
+    @if (isLoading() && results().length === 0) {
+      <ul class="anime-grid" aria-busy="true" aria-label="Buscando...">
+        @for (i of [1,2,3,4,5,6]; track i) {
+          <li class="skeleton-card" aria-hidden="true"></li>
+        }
+      </ul>
+    } @else if (hasSearched() && results().length === 0 && !isLoading()) {
+      <p class="search-page__empty" role="status">No se encontraron resultados.</p>
+    } @else if (results().length > 0) {
+      <ul class="anime-grid" aria-label="Resultados de búsqueda">
+        @for (anime of results(); track anime.mal_id) {
+          <li>
+            <app-anime-card [anime]="anime" />
+          </li>
+        }
+      </ul>
+
+      @if (hasNextPage()) {
+        <div
+          appInfiniteScroll
+          (scrolled)="loadMore()"
+          class="scroll-sentinel"
+          aria-hidden="true"
+        >
+          @if (isLoading()) {
+            <span class="scroll-sentinel__spinner"></span>
+          }
+        </div>
+      }
+    } @else {
+      <p class="search-page__hint" role="status">
+        Escribe un nombre o elige un género para buscar.
+      </p>
+    }
+  </main>
+
+  <app-navbar />
+</div>

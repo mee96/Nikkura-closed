@@ -1,0 +1,27 @@
+// ⚡ Hakusama — electric, dynamic, bold & geometric
+body.theme-haku {
+  --color-primary: #1565c0;
+  --color-primary-dark: #0d47a1;
+  --color-secondary: #00838f;
+  --color-background: #f0f6ff;
+  --color-surface: #e3f0ff;
+  --color-accent: #00acc1;
+  --color-text: #0a1929;
+  --color-text-muted: #546e7a;
+  --color-border: rgba(21, 101, 192, 0.25);
+  --border-radius-default: 8px;
+  --border-radius-sm: 4px;
+  --border-radius-lg: 12px;
+  --font-heading: 'Rajdhani', sans-serif;
+  --font-body: 'Rajdhani', sans-serif;
+  --shadow-card: 0 4px 20px rgba(21, 101, 192, 0.15);
+  --shadow-elevated: 0 8px 32px rgba(21, 101, 192, 0.25);
+  --shadow-sm: 0 2px 8px rgba(21, 101, 192, 0.1);
+  --shadow-md: 0 4px 16px rgba(21, 101, 192, 0.2);
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius-small: var(--border-radius-sm);
+
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}

@@ -1,0 +1,81 @@
+<div class="profile-page">
+  <header class="profile-page__header">
+    <div class="profile-page__avatar" aria-hidden="true">
+      {{ user()?.displayName?.charAt(0)?.toUpperCase() ?? '?' }}
+    </div>
+    <div class="profile-page__info">
+      <h1 class="profile-page__name">{{ user()?.displayName }}</h1>
+      <button
+        type="button"
+        class="profile-page__role-btn"
+        (click)="showRoleSelector.set(!showRoleSelector())"
+        [attr.aria-expanded]="showRoleSelector()"
+        aria-label="Cambiar rol"
+      >
+        {{ roleInfo().icon }} {{ roleInfo().label }}
+        <span class="profile-page__role-edit" aria-hidden="true">✎</span>
+      </button>
+    </div>
+  </header>
+
+  @if (showRoleSelector()) {
+    <section class="role-selector" aria-label="Cambiar rol">
+      <h2 class="role-selector__title">Elige tu nuevo rol</h2>
+      <div class="role-selector__grid">
+        @for (roleId of roles; track roleId) {
+          <button
+            type="button"
+            class="role-option"
+            [class.role-option--active]="user()?.role === roleId"
+            [class]="'role-option role-option--' + roleId + (user()?.role === roleId ? ' role-option--active' : '')"
+            [disabled]="isSavingRole()"
+            (click)="changeRole(roleId)"
+            [attr.aria-pressed]="user()?.role === roleId"
+          >
+            <span class="role-option__icon">{{ allRoleInfo[roleId].icon }}</span>
+            <span class="role-option__label">{{ allRoleInfo[roleId].label }}</span>
+            <span class="role-option__desc">{{ allRoleInfo[roleId].description }}</span>
+          </button>
+        }
+      </div>
+      <button
+        type="button"
+        class="role-selector__cancel"
+        (click)="showRoleSelector.set(false)"
+      >Cancelar</button>
+    </section>
+  }
+
+  <section class="profile-page__stats" aria-label="Estadísticas">
+    <div class="stat-card">
+      <span class="stat-card__value">{{ totalAnimes() }}</span>
+      <span class="stat-card__label">Animes guardados</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">{{ completedCount() }}</span>
+      <span class="stat-card__label">Completados</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">{{ totalFolders() }}</span>
+      <span class="stat-card__label">Carpetas</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-card__value">
+        {{ averageScore() !== null ? averageScore() : '—' }}
+      </span>
+      <span class="stat-card__label">Puntuación media</span>
+    </div>
+  </section>
+
+  <section class="profile-page__actions">
+    <button
+      type="button"
+      class="btn btn--outline profile-page__logout-btn"
+      (click)="logout()"
+    >
+      Cerrar sesión
+    </button>
+  </section>
+
+  <app-navbar />
+</div>

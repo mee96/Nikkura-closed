@@ -1,36 +1,45 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../core/services/auth';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.html',
-  imports: [CommonModule, ReactiveFormsModule],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './login.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ReactiveFormsModule, RouterLink],
 })
 export class LoginComponent {
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
 
-  private fb = inject(FormBuilder);
-  private auth = inject(AuthService);
+  readonly isLoading = signal(false);
+  readonly error = signal<string | null>(null);
 
-  form = this.fb.group({
+  readonly form = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]]
+    password: ['', [Validators.required]],
   });
 
-  error: string | null = null;
-
-  async submit() {
+  async submit(): Promise<void> {
     if (this.form.invalid) return;
+
+    this.isLoading.set(true);
+    this.error.set(null);
 
     const { email, password } = this.form.value;
 
     try {
-      const cred = await this.auth.login(email!, password!);
-      console.log('Logged in:', this.auth.mapUser(cred.user));
+      await this.authService.login(email!, password!);
     } catch (err: unknown) {
-      this.error = err instanceof Error ? err.message : 'An error occurred';
+      this.error.set(this.authService.getErrorMessage(err));
+      this.isLoading.set(false);
     }
   }
 }

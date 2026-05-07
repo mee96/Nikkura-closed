@@ -1,0 +1,27 @@
+// 🍃 Senpai — mature, serious, editorial & dark-forest
+body.theme-sen {
+  --color-primary: #2e7d32;
+  --color-primary-dark: #1b5e20;
+  --color-secondary: #558b2f;
+  --color-background: #f1f8f1;
+  --color-surface: #e6f2e6;
+  --color-accent: #81c784;
+  --color-text: #1b2e1b;
+  --color-text-muted: #5a7a5a;
+  --color-border: rgba(46, 125, 50, 0.25);
+  --border-radius-default: 6px;
+  --border-radius-sm: 3px;
+  --border-radius-lg: 10px;
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'DM Serif Display', serif;
+  --shadow-card: 0 4px 20px rgba(46, 125, 50, 0.12);
+  --shadow-elevated: 0 8px 32px rgba(46, 125, 50, 0.2);
+  --shadow-sm: 0 2px 8px rgba(46, 125, 50, 0.1);
+  --shadow-md: 0 4px 16px rgba(46, 125, 50, 0.18);
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius-small: var(--border-radius-sm);
+
+  background-color: var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}

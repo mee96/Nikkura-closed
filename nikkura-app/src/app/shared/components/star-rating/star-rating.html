@@ -1,0 +1,22 @@
+<div
+  class="star-rating"
+  role="group"
+  [attr.aria-label]="'Puntuación: ' + (score() ?? 'Sin puntuar') + ' de 10'"
+>
+  @for (star of stars; track star) {
+    <button
+      type="button"
+      class="star-rating__star"
+      [class.star-rating__star--active]="isActive(star)"
+      [attr.aria-label]="star + ' de 10'"
+      [attr.aria-pressed]="score() === star"
+      [disabled]="readonly() || null"
+      (mouseenter)="onHover(star)"
+      (mouseleave)="onLeave()"
+      (click)="onSelect(star)"
+      (keydown.enter)="onSelect(star)"
+    >
+      ★
+    </button>
+  }
+</div>

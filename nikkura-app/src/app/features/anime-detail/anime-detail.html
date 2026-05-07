@@ -1,0 +1,169 @@
+<div class="detail-page">
+  @if (isLoading()) {
+    <div class="detail-page__loading" aria-busy="true" aria-label="Cargando anime">
+      <div class="skeleton-hero"></div>
+      <div class="detail-page__body">
+        <div class="skeleton-text skeleton-text--lg"></div>
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text skeleton-text--sm"></div>
+      </div>
+    </div>
+  } @else if (anime()) {
+    <div class="detail-page__hero">
+      <img
+        [src]="anime()!.images.jpg.large_image_url || anime()!.images.jpg.image_url"
+        [alt]="anime()!.title"
+        class="detail-page__hero-img"
+      />
+      <div class="detail-page__hero-overlay">
+        <a routerLink="/home" class="detail-page__back" aria-label="Volver">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="24" height="24" aria-hidden="true">
+            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="detail-page__body">
+      <div class="detail-page__meta">
+        @if (anime()!.score) {
+          <span class="detail-page__score" aria-label="Puntuación {{ anime()!.score }}">
+            ★ {{ anime()!.score }}
+          </span>
+        }
+        @if (anime()!.year) {
+          <span class="detail-page__year">{{ anime()!.year }}</span>
+        }
+        @if (anime()!.type) {
+          <span class="detail-page__type">{{ anime()!.type }}</span>
+        }
+        @if (anime()!.episodes) {
+          <span class="detail-page__episodes">{{ anime()!.episodes }} eps.</span>
+        }
+      </div>
+
+      <h1 class="detail-page__title">
+        {{ anime()!.title_english || anime()!.title }}
+      </h1>
+      @if (anime()!.title_english && anime()!.title !== anime()!.title_english) {
+        <p class="detail-page__title-alt">{{ anime()!.title }}</p>
+      }
+
+      @if (anime()!.genres.length) {
+        <ul class="detail-page__genres" aria-label="Géneros">
+          @for (genre of anime()!.genres; track genre.mal_id) {
+            <li class="detail-page__genre">{{ genre.name }}</li>
+          }
+        </ul>
+      }
+
+      @if (anime()!.synopsis) {
+        <p class="detail-page__synopsis">{{ anime()!.synopsis }}</p>
+      }
+
+      @if (embedUrl) {
+        <div class="detail-page__trailer">
+          <h2 class="detail-page__section-title">Tráiler</h2>
+          <div class="detail-page__video-wrap">
+            <iframe
+              [src]="embedUrl"
+              title="Tráiler de {{ anime()!.title }}"
+              class="detail-page__video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      }
+
+      <div class="detail-page__actions">
+        @if (saveSuccess()) {
+          <p class="detail-page__success" role="status">¡Añadido a tu colección!</p>
+        }
+        <button type="button" class="btn detail-page__add-btn" (click)="openAddModal()">
+          + Añadir a colección
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="detail-page__error" role="alert">
+      <a routerLink="/home" class="btn">Volver al inicio</a>
+      <p>No se ha podido cargar el anime.</p>
+    </div>
+  }
+
+  @if (showAddModal()) {
+    <div
+      class="modal-backdrop"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
+      (click)="closeAddModal()"
+    >
+      <div class="modal" (click)="$event.stopPropagation()">
+        <h2 id="modal-title" class="modal__title">Añadir a colección</h2>
+
+        <form [formGroup]="addForm" (ngSubmit)="saveToCollection()" novalidate>
+          <div class="form-group">
+            <label for="folder-select">Carpeta</label>
+            @if (folders().length === 0) {
+              <p class="modal__no-folders">
+                No tienes carpetas.
+                <a routerLink="/collection">Crea una primero.</a>
+              </p>
+            } @else {
+              <select id="folder-select" formControlName="folderId">
+                @for (folder of folders(); track folder.id) {
+                  <option [value]="folder.id">{{ folder.emoji }} {{ folder.name }}</option>
+                }
+              </select>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="status-select">Estado</label>
+            <select id="status-select" formControlName="status">
+              <option value="pending">Pendiente</option>
+              <option value="watching">Viendo</option>
+              <option value="completed">Completado</option>
+              <option value="dropped">Abandonado</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Tu puntuación</label>
+            <app-star-rating
+              [score]="addForm.value.score ?? null"
+              (scoreChange)="onScoreChange($event)"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="note-input">Nota personal</label>
+            <textarea
+              id="note-input"
+              formControlName="note"
+              rows="3"
+              placeholder="¿Qué te pareció?"
+            ></textarea>
+          </div>
+
+          <div class="modal__actions">
+            <button type="button" class="btn btn--outline" (click)="closeAddModal()">
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn"
+              [disabled]="isSaving() || folders().length === 0"
+            >
+              {{ isSaving() ? 'Guardando...' : 'Guardar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <app-navbar />
+</div>

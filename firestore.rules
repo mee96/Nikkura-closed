@@ -1,0 +1,21 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Cada usuari només pot llegir i escriure el seu propi document
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      // Carpetes de l'usuari
+      match /folders/{folderId} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+
+        // Entrades d'anime dins de cada carpeta
+        match /entries/{entryId} {
+          allow read, write: if request.auth != null && request.auth.uid == uid;
+        }
+      }
+    }
+  }
+}
